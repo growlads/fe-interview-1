@@ -17,10 +17,10 @@ All files are in the `data/` directory.
 | File | Rows |
 |------|------|
 | `offers.csv` | ~499 |
-| `chat-data-3303.csv` | ~11,000 |
-| `ad-opportunities-3303.csv` | ~116 |
-| `ad-impressions-3303.csv` | ~116 |
-| `ad-clicks-3303.csv` | ~16 |
+| `chat-data-3303.csv` | ~1600 |
+| `ad-opportunities-3303.csv` | 117 |
+| `ad-impressions-3303.csv` | 117 |
+| `ad-clicks-3303.csv` | 17 |
 
 The `ad-opportunities`, `ad-impressions`, and `ad-clicks` files represent what the current production system did. These are your **baseline for comparison**, not your input.
 
