@@ -2,57 +2,66 @@
 
 ## Background
 
-The goal of this task is to design an ad-network that works on top of affiliate offers and serves in-chat ads. 
+We're building an ad network that serves in-chat ads powered by affiliate offers. A user chats with an AI assistant, and at certain moments we have the opportunity to show them a relevant ad.
 
-We have a catalog of affiliate offers and a dataset of real conversations from a live publisher.
-
-Your job is to build a delivery engine that decides **what** to serve, **when** to serve it, and **whether** to serve anything at all.
+Your job is to build the system that decides **what** to show and **whether** to show anything at all.
 
 ---
 
 ## Data
 
-All files are in the `data/` directory.
+The `offers.csv` file is in the `data/` directory. The opportunities and chat data can be found in [this spreadsheet](https://docs.google.com/spreadsheets/d/11aIr7U20uaSfOn1zUPjZgq7unlgEab7tRb2C9qEDR1s/edit?gid=1407212167#gid=1407212167).
 
-| File | Rows |
-|------|------|
-| `offers.csv` | ~499 |
-| `chat-data-3303.csv` | ~1600 |
-| `ad-opportunities-3303.csv` | 117 |
-| `ad-impressions-3303.csv` | 117 |
-| `ad-clicks-3303.csv` | 17 |
-
-The `ad-opportunities`, `ad-impressions`, and `ad-clicks` files represent what the current production system did. These are your **baseline for comparison**, not your input.
+| File | Description | Rows |
+|------|-------------|------|
+| `data/offers.csv` | Catalog of affiliate offers | ~499 |
+| `ad-opportunities.csv` (spreadsheet) | Known ad opportunities from a live publisher | 121 |
+| `chat-data.csv` (spreadsheet) | Chat conversations from the same publisher | 2,173 |
 
 ---
 
 ## The Task
 
-### 1. Process the offer catalog
+### Part 1: Ad Matching
 
-The offers need to be served programmatically. Get them into shape.
-
-### 2. Build the delivery engine
-
-Given a set of chat conversations, your engine should identify when to serve an ad and which offer to serve. It should also know when **not** to serve anything.
+Each row in `ad-opportunities.csv` is a moment where you *can* show an ad. Decide which offer to serve for each one - or decide not to serve anything.
 
 The engine should support an `ad_load` parameter.
 
-Here `ad_load` is defined per chat. It's usually a number, but we'll set it as a percentage. It's offers shown as a percentage of opportunities.
+**Output:** a CSV with columns `ad_slot_id,offer_id`
 
-### 3. Run it and report results
+**Evaluate:**
 
-Run your engine against the chat data. Report your results and compare against the baseline.
+```bash
+python evaluate.py match <your-output.csv>
+python evaluate.py match <your-output.csv> --ad-load 0.5
+```
 
 ---
 
-## Stretch Goals
+### Part 2: Opportunity Discovery
 
-- Frequency capping per offer (total): an offer can only be clicked on 50 times
-- Frequency capping per offer (per day): an offer can only be clicked on 10 times/day
+The opportunities in `ad-opportunities.csv` are the ones our current system identified. There may be more moments in the chat data where an ad could be shown.
+
+Scan the conversations in `chat-data.csv` and identify additional ad opportunities.
+
+**Output:** a CSV with columns `visitor_id,session_id,chat_id,assistant_message_count`
+
+**Evaluate:**
+```bash
+python evaluate.py discover <your-output.csv>
+```
+
+---
+
+## References
+
+- **THE-ADTECH-BOOK.pdf** — included in this repo. Covers ad tech fundamentals.
 
 ---
 
 ## Submission
 
-Include your code, output, and a writeup explaining the decisions you made and why.
+1. Share a link to your **GitHub repo** with your code, output files, and a writeup explaining your approach and decisions.
+2. **Export your interactions** with any coding agents/assistants you used and include the transcript (or a link to it) in the repo.
+3. Include your output CSVs so we can run the evaluation script.
