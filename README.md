@@ -18,6 +18,23 @@ The `offers.csv` file is in the `data/` directory. The opportunities and chat da
 | `ad-opportunities.csv` (spreadsheet) | Known ad opportunities from a live publisher | 121 |
 | `chat-data.csv` (spreadsheet) | Chat conversations from the same publisher | 2,173 |
 
+### Linking the Data
+
+- A single chat is identified by `visitor_id` and `chat_id` across `ad-opportunities.csv` and `chat-data.csv`.
+- Geo information for an opportunity is available in the `ad-opportunities.csv` sheet.
+- Geo information for an offer is available in the offer title in `offers.csv`.
+
+---
+
+## Getting Started
+
+Clone this repo before attempting the exercise:
+
+```bash
+git clone <repo-url>
+cd growl-interview
+```
+
 ---
 
 ## The Task
