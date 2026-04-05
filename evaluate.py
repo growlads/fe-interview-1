@@ -4,7 +4,7 @@ Evaluation script for the Affiliate Ad Network interview task.
 
 Usage:
     # Part 1: Evaluate ad matching results
-    python evaluate.py match <your-output.csv> [--ad-load 0.5]
+    python evaluate.py match <your-output.csv>
 
     # Part 2: Evaluate discovered opportunities
     python evaluate.py discover <your-output.csv>
@@ -56,7 +56,7 @@ def load_baseline_opportunities():
     return opps
 
 
-def verify_match(output_path, ad_load=None):
+def verify_match(output_path):
     """Verify Part 1: ad matching results."""
     offers = load_offers()
     slots = load_ad_slots()
@@ -99,17 +99,6 @@ def verify_match(output_path, ad_load=None):
     print(f"Slots filled:            {filled}")
     print(f"Fill rate:               {fill_rate:.1%}")
     print()
-
-    if ad_load is not None:
-        target_fills = int(total_slots * ad_load)
-        print(f"Ad load target:          {ad_load:.0%} ({target_fills} slots)")
-        if filled > target_fills:
-            print(f"  -> OVER by {filled - target_fills} slots")
-        elif filled < target_fills:
-            print(f"  -> UNDER by {target_fills - filled} slots")
-        else:
-            print(f"  -> EXACT match")
-        print()
 
     if invalid_slots:
         print(f"WARNING: {len(invalid_slots)} invalid slot IDs (not in ad-slots-3303.csv)")
@@ -198,7 +187,7 @@ def main():
 
     match_parser = subparsers.add_parser("match", help="Evaluate Part 1: ad matching")
     match_parser.add_argument("output", help="Path to your output CSV")
-    match_parser.add_argument("--ad-load", type=float, default=None, help="Ad load percentage (0.0-1.0)")
+
 
     discover_parser = subparsers.add_parser("discover", help="Evaluate Part 2: opportunity discovery")
     discover_parser.add_argument("output", help="Path to your output CSV")
@@ -210,7 +199,7 @@ def main():
         sys.exit(1)
 
     if args.command == "match":
-        verify_match(args.output, ad_load=args.ad_load)
+        verify_match(args.output)
     elif args.command == "discover":
         verify_discover(args.output)
 

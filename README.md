@@ -26,15 +26,12 @@ The `offers.csv` file is in the `data/` directory. The opportunities and chat da
 
 Each row in `ad-opportunities.csv` is a moment where you *can* show an ad. Decide which offer to serve for each one - or decide not to serve anything.
 
-The engine should support an `ad_load` parameter.
-
 **Output:** a CSV with columns `ad_slot_id,offer_id`
 
 **Evaluate:**
 
 ```bash
 python evaluate.py match <your-output.csv>
-python evaluate.py match <your-output.csv> --ad-load 0.5
 ```
 
 ---
